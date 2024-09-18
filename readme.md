@@ -1,7 +1,9 @@
 Simple Script to Monitor Apple In-Store Pickup Availability
 
 Requirements
+
 Proxy File: Ensure you have a proxy file to avoid IP blocking.
+
 Proxy Manager File: Manage your proxies with the appropriate manager script.
 
 
