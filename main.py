@@ -1,16 +1,10 @@
 import asyncio
-import json
 import aiohttp
 import uuid
 from datetime import datetime
-import os
-import sys
-sys.path.append('.')
-from sources.ProxyManager.ProxyManager import ProxyManager
-from discord_webhook import DiscordWebhook, DiscordEmbed
-
+from discord_webhook import DiscordWebhook, DiscordEmbed    
+from ProxyManager import ProxyManager
 WEBHOOK_URL = ""
-
 productsJson = {
     "phones": {
         "iphone16_pro_max_256GB_desert": "MYW53LL/A",
@@ -80,18 +74,18 @@ class AppleMonitor:
                                 if (self.taskInfo['storeNumber'] == store['storeNumber']):
                                     if store['partsAvailability'][self.taskInfo['part']]['messageTypes']['regular']['storeSelectionEnabled'] == True:
                                         current_status = True
-                                        print(f"{datetime.now()} - INSTOCK！！！ | Location：{self.taskInfo['location']} | Store：{store['storeName']} |  Store Number：{self.taskInfo['storeNumber']} | Phone：{self.taskInfo['phone'].upper()} |Build：{self.taskInfo['part']} RESTOCKED！！！")
-                                        print(f"{datetime.now()} - INSTOCK！！！ --------Location：{self.taskInfo['location']} | Store：{store['storeName']} | Store Number：{self.taskInfo['storeNumber']}----------- RESTOCKED！！！")
+                                        print(f"{datetime.now()} - INSTOCK!!! | Location:{self.taskInfo['location']} | Store:{store['storeName']} |  Store Number:{self.taskInfo['storeNumber']} | Phone:{self.taskInfo['phone'].upper()} |Build:{self.taskInfo['part']} RESTOCKED!!!")
+                                        print(f"{datetime.now()} - INSTOCK!!! --------Location:{self.taskInfo['location']} | Store:{store['storeName']} | Store Number:{self.taskInfo['storeNumber']}----------- RESTOCKED!!!")
                                     break
                             if last_status != current_status:
                                 if current_status == True:
                                     date = store['partsAvailability'][self.taskInfo['part']]['pickupSearchQuote']
-                                    print(f"{datetime.now()} - INSTOCK！！！ | Location：{self.taskInfo['location']} | Store：{store['storeName']} | Store Number：{self.taskInfo['storeNumber']} | Phone：{self.taskInfo['phone'].upper()} | Build：{self.taskInfo['part']} RESTOCKED！！！")
-                                    print(f"{datetime.now()} - INSTOCK！！！ --------Location：{self.taskInfo['location']} | Store：{store['storeName']} | Store Number：{self.taskInfo['storeNumber']}----------- RESTOCKED！！！")
+                                    print(f"{datetime.now()} - INSTOCK!!! | Location:{self.taskInfo['location']} | Store:{store['storeName']} | Store Number:{self.taskInfo['storeNumber']} | Phone:{self.taskInfo['phone'].upper()} | Build:{self.taskInfo['part']} RESTOCKED!!!")
+                                    print(f"{datetime.now()} - INSTOCK!!! --------Location:{self.taskInfo['location']} | Store:{store['storeName']} | Store Number:{self.taskInfo['storeNumber']}----------- RESTOCKED!!!")
                                     self.notifyDiscord(taskInfo,date)
                                 else:
                                     last_status = current_status
-                        print(f"{datetime.now()}  MONITORING ------------ | Location：{self.taskInfo['location']} | Store：{self.taskInfo['storeName']} | Store Number：{self.taskInfo['storeNumber']} | Phone：{self.taskInfo['phone'].upper()} | Build：{self.taskInfo['part']} Current_Status：{current_status} | Last_Status：{last_status}")
+                        print(f"{datetime.now()}  MONITORING ------------ | Location:{self.taskInfo['location']} | Store:{self.taskInfo['storeName']} | Store Number:{self.taskInfo['storeNumber']} | Phone:{self.taskInfo['phone'].upper()} | Build:{self.taskInfo['part']} Current_Status:{current_status} | Last_Status:{last_status}")
             except Exception as e:
                 print(e)
             finally:
@@ -100,7 +94,7 @@ class AppleMonitor:
     def notifyDiscord(self,taskInfo,date):
         #post orderLInk to discord
         webhook = DiscordWebhook(url=WEBHOOK_URL, username="Apple Restocked!",rate_limit_retry=True)
-        embed = DiscordEmbed(title=f"Apple Restock - {taskInfo['storeName']}", url=f"https://www.apple.com/shop/buy-iphone/iphone-16-pro/{taskInfo['part']}", description=f"Name：{taskInfo['phone'].upper()} | Build：{taskInfo['part']}", color=242424)
+        embed = DiscordEmbed(title=f"Apple Restock - {taskInfo['storeName']}", url=f"https://www.apple.com/shop/buy-iphone/iphone-16-pro/{taskInfo['part']}", description=f"Name:{taskInfo['phone'].upper()} | Build:{taskInfo['part']}", color=242424)
         embed.add_embed_field(name="Name", value=taskInfo['phone'],inline=True)
         embed.add_embed_field(name="Build", value=taskInfo['part'],inline=True)
         embed.add_embed_field(name="Date", value=date, inline=False)
@@ -115,7 +109,7 @@ class AppleMonitor:
 if __name__ == '__main__':
 
     
-    proxy_manager = ProxyManager('./assests/proxy_rack.txt')
+    proxy_manager = ProxyManager('proxy.txt')
     #print each location with product
     tasks = []
 
