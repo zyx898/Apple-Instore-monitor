@@ -83,8 +83,7 @@ class AppleMonitor:
                                     print(f"{datetime.now()} - INSTOCK!!! | Location:{self.taskInfo['location']} | Store:{store['storeName']} | Store Number:{self.taskInfo['storeNumber']} | Phone:{self.taskInfo['phone'].upper()} | Build:{self.taskInfo['part']} RESTOCKED!!!")
                                     print(f"{datetime.now()} - INSTOCK!!! --------Location:{self.taskInfo['location']} | Store:{store['storeName']} | Store Number:{self.taskInfo['storeNumber']}----------- RESTOCKED!!!")
                                     self.notifyDiscord(taskInfo,date)
-                                else:
-                                    last_status = current_status
+                                last_status = current_status
                         print(f"{datetime.now()}  MONITORING ------------ | Location:{self.taskInfo['location']} | Store:{self.taskInfo['storeName']} | Store Number:{self.taskInfo['storeNumber']} | Phone:{self.taskInfo['phone'].upper()} | Build:{self.taskInfo['part']} Current_Status:{current_status} | Last_Status:{last_status}")
             except Exception as e:
                 print(e)
